@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -16,7 +17,28 @@ public class GameManager : MonoBehaviour
             }
         }
 
+    [Header("Shoot")]
+    public bool cooldown = false;
+    public float cooldownTime = 5f;
+    bool isActivated = false;
+
     [Header("Score")]
     public int totalScore;
-    public int points = 50;
+    public int pointsValue;
+
+    void Update()
+    {
+        if(cooldown == true && !isActivated)
+        {
+            isActivated = true;
+            StartCoroutine(WeaponCooldown());
+        }
+    }
+
+    IEnumerator WeaponCooldown()
+    {
+        yield return new WaitForSeconds(cooldownTime);
+        cooldown = false;
+        isActivated = false;
+    }
 }
